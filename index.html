@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLESS（ライブ動画システム）</title>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <style>
+    /* ポップアップのスタイル */
+    #popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #popup-canvas {
+      max-width: 80%;
+      max-height: 80%;
+      border: 1px solid white;
+      cursor: pointer;
+    }
+
+    /* ポップアップを閉じるボタン */
+    #popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+  </style>
+</head>
+<body>
+  <h1>VLESS</h1>
+
+  <!-- メインコンテナ -->
+  <div id="main-container">
+    <!-- 動画コンテナ -->
+    <div id="video-container">
+      <video id="video-player" controls>
+        <source src="videos/live.mp4" type="video/mp4">
+        お使いのブラウザは動画再生に対応していません。
+      </video>
+    </div>
+
+    <!-- チャットコンテナ -->
+    <div class="chat-container">
+      <!-- メッセージエリア -->
+      <div id="chat-messages" class="chat-messages"></div>
+
+      <!-- 名前入力欄 -->
+      <div id="username-container">
+        <input type="text" id="username-input" placeholder="名前を入力">
+        <button id="username-button">名前登録</button>
+      </div>
+
+      <!-- メッセージ入力欄 -->
+      <input type="text" id="message-input" placeholder="メッセージを入力">
+      <button id="send-message">送信</button>
+    </div>
+  </div>
+
+  <!-- 拡大表示用ポップアップ -->
+  <div id="popup">
+    <canvas id="popup-canvas"></canvas>
+    <button id="popup-close">閉じる</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/scripts.js"></script>
+  <script>
+    const videoPlayer = document.getElementById("video-player");
+    const popup = document.getElementById("popup");
+    const popupCanvas = document.getElementById("popup-canvas");
+    const popupClose = document.getElementById("popup-close");
+
+    // WebSocketまたはAPIで、YOLOの検出結果（座標）を受け取る
+    // ここではダミーの検出結果を用意しています
+    const detectedObjects = [
+      {
+        label: 'guitar', // 楽器のラベル
+        x: 100, // 検出された位置
+        y: 150,
+        width: 200,
+        height: 150
+      }
+    ];
+
+    // 拡大表示用ポップアップ
+    function showPopup(x, y, width, height) {
+      const ctx = popupCanvas.getContext("2d");
+
+      // 拡大画像を描画
+      popupCanvas.width = width;
+      popupCanvas.height = height;
+
+      // ここで、YOLOで検出した領域を切り取って表示
+      ctx.drawImage(
+        videoPlayer,
+        x, y, width, height, // ソース座標
+        0, 0, popupCanvas.width, popupCanvas.height // 描画先座標
+      );
+
+      popup.style.display = "block";
+    }
+
+    // ポップアップを閉じる
+    popupClose.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+
+    // 動画再生中に検出された楽器の部分を拡大表示
+    videoPlayer.addEventListener("play", function () {
+      // 定期的に動画のフレームを処理して、楽器部分を拡大表示
+      setInterval(() => {
+        // 検出結果に基づいて拡大表示
+        for (let object of detectedObjects) {
+          if (object.label === 'guitar') {
+            showPopup(object.x, object.y, object.width, object.height);
+          }
+        }
+      }, 100); // 100msごとに実行
+    });
+  </script>
+</body>
+</html>
