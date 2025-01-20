@@ -1,0 +1,144 @@
+/* メインコンテナのレイアウト */
+#main-container {
+  display: flex;
+  gap: 20px; /* 動画とチャット間のスペース */
+}
+
+/* 動画のスタイル */
+#video-container {
+  flex: 3; /* 動画が全体の3/4を占める */
+  position: relative; /* 必須: スティッカーリストの位置を動画内で調整 */
+}
+
+video {
+  width: 100%;
+  height: 100%;
+}
+
+/* チャットエリアのスタイル */
+.chat-container {
+  flex: 1; /* チャットが全体の1/4を占める */
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1; /* メッセージエリアが最も多くスペースを占める */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+#username-container {
+  margin-bottom: 10px;
+}
+
+#username-input, #message-input, button {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* 動画上のスティッカーリスト */
+#sticker-list {
+  display: none; /* 初期は非表示 */
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px; /* 必要に応じて調整 */
+  left: 50px; /* 必要に応じて調整 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#sticker-list img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#sticker-list img:hover {
+  transform: scale(1.2); /* ホバー時に拡大 */
+}
+
+#sticker-btn {
+  padding: 8px 12px;
+  background-color: #007BFF; /* ボタンの背景色 */
+  color: white; /* ボタンの文字色 */
+  border: none; /* 枠線を削除 */
+  border-radius: 5px; /* 角を丸く */
+  cursor: pointer; /* クリック可能 */
+  transition: background-color 0.2s ease;
+}
+
+#sticker-btn:hover {
+  background-color: #0056b3; /* ホバー時のボタン色 */
+}
+
+/* 動画選択範囲のスタイル */
+#selection-area {
+  position: absolute;
+  border: 2px solid rgba(255, 0, 0, 0.5); /* 赤い枠線 */
+  background-color: rgba(255, 0, 0, 0.2); /* 半透明な赤の背景 */
+  display: none;
+}
+
+/* ポップアップのスタイル */
+/* ポップアップ全体のスタイル */
+#popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none; /* 初期は非表示 */
+  z-index: 1000; /* 他の要素よりも前面に表示 */
+  background: rgba(0, 0, 0, 0.8); /* 背景色を半透明の黒に設定 */
+  border: 2px solid white;
+  border-radius: 10px; /* ポップアップの角を丸くする */
+  padding: 20px; /* 内側の余白を追加 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* ポップアップに影を追加 */
+}
+
+/* ポップアップ内のキャンバススタイル */
+#popup-canvas {
+  display: block;
+  max-width: 100%; /* 幅を親要素に収める */
+  background-color: black; /* 背景を黒に設定 */
+  margin: 0 auto; /* キャンバスを中央揃え */
+}
+
+/* ポップアップの閉じるボタンのスタイル */
+#popup-close {
+  position: absolute;
+  top: 10px; /* ポップアップの内側からの位置 */
+  right: 10px;
+  color: white; /* 閉じるボタンの色 */
+  font-size: 20px; /* ボタンのフォントサイズを調整 */
+  font-weight: bold; /* ボタンを強調 */
+  cursor: pointer; /* クリック可能にする */
+  background: rgba(255, 255, 255, 0.2); /* 背景を薄い白に設定 */
+  padding: 5px 10px; /* ボタン内の余白 */
+  border-radius: 5px; /* ボタンの角を丸く */
+  transition: background-color 0.2s ease, color 0.2s ease; /* ホバー時のアニメーション */
+}
+
+#popup-close:hover {
+  background: rgba(255, 255, 255, 0.5); /* ホバー時に背景を明るく */
+  color: black; /* ホバー時に文字色を黒に */
+}
+

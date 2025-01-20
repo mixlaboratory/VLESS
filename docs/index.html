@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLESS（ライブ動画システム）</title>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+  <h1>VLESS</h1>
+
+  <!-- メインコンテナ -->
+  <div id="main-container">
+    <!-- 動画コンテナ -->
+    <div id="video-container">
+      <video id="video-player" controls>
+        <source src="https://drive.google.com/file/d/1t-mSecd-nSaVAojgw1J3VVyhjMbc4Afk/view?usp=drive_link" type="video/mp4">
+        お使いのブラウザは動画再生に対応していません。
+      </video>
+    </div>
+    
+    <!-- チャットコンテナ -->
+    <div class="chat-container">
+      <!-- 拡大倍率 -->
+      <div id="zoom-control">
+        <label for="zoom-slider">拡大倍率: <span id="zoom-value">1.0x</span></label>
+        <input type="range" id="zoom-slider" min="1" max="5" step="0.1" value="1">
+      </div>
+
+      <!-- 拡大範囲倍率スライダー（拡大倍率とチャット欄の間に配置） -->
+      <div id="zoom-range-control-container">
+        <label for="zoom-range-slider">拡大範囲倍率: </label>
+        <span id="zoom-range-value">1.0</span> <!-- 初期値 -->
+        <input type="range" id="zoom-range-slider" min="1" max="10" step="0.1" value="1"> <!-- 最大値を10に変更 -->
+      </div>
+
+      <!-- メッセージエリア -->
+      <div id="chat-messages" class="chat-messages"></div>
+
+      <!-- 名前入力欄 -->
+      <div id="username-container">
+        <input type="text" id="username-input" placeholder="名前を入力">
+        <button id="username-button">名前登録</button>
+      </div>
+
+      <!-- メッセージ入力欄 -->
+      <input type="text" id="message-input" placeholder="メッセージを入力">
+      <button id="send-message">送信</button>
+    </div>
+  </div>
+
+  <!-- スタンプボタン -->
+  <button id="sticker-btn">📦 スタンプ</button>
+
+  <!-- スタンプリスト -->
+  <div id="sticker-list" style="display:none;">
+    <img class="sticker" src="/images/sticker1.png" alt="sticker1" onclick="addSticker('/images/sticker1.png')">
+    <img class="sticker" src="/images/sticker2.png" alt="sticker2" onclick="addSticker('/images/sticker2.png')">
+    <img class="sticker" src="/images/sticker3.png" alt="sticker3" onclick="addSticker('/images/sticker3.png')">
+    <img class="sticker" src="/images/sticker4.png" alt="sticker4" onclick="addSticker('/images/sticker4.png')">
+    <button onclick="document.getElementById('sticker-list').style.display = 'none';">閉じる</button>
+  </div>
+
+  <!-- ポップアップ -->
+  <div id="popup" style="display: none;">
+    <button id="popup-close">閉じる</button>
+    <canvas id="popup-canvas"></canvas>
+  </div>
+
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/scripts.js"></script>
+</body>
+</html>
