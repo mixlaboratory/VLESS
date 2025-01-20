@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 
 // 静的ファイルを提供
-app.use(express.static("public"));
+app.use(express.static("./public"));
 
 // 動画の状態管理
 let videoState = {
